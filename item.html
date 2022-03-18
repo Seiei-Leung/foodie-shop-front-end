@@ -285,7 +285,7 @@
 										<div class="am-comment-meta">
 											<!-- 评论元数据 -->
 											<a href="#link-to-user"
-												class="am-comment-author">{{commentRecord.nickname}} (匿名)</a>
+												class="am-comment-author">{{commentRecord.nickName}} (匿名)</a>
 											<!-- 评论者 -->
 											评论于
 											<time datetime="">{{commentRecord.createdTime}}</time>
@@ -483,12 +483,12 @@
 					axios.get(
 							serverUrl + '/items/commentLevel?itemId=' + itemId, {})
 						.then(res => {
-							if (res.data.status == 200) {
+							if (res.data.status == 0) {
 								var countsVO = res.data.data;
 								this.countsVO = countsVO;
 								// console.log(countsVO);
 
-							} else if (res.data.status == 500) {
+							} else {
 								alert(res.data.msg);
 							}
 						});
@@ -512,7 +512,7 @@
 							serverUrl + '/items/comments?itemId=' + itemId + "&level=" + level + "&page=" + page +
 							"&pageSize=" + pageSize, {})
 						.then(res => {
-							if (res.data.status == 200) {
+							if (res.data.status == 0) {
 								var grid = res.data.data;
 								var commentList = grid.rows;
 								this.commentList = commentList;
@@ -531,7 +531,7 @@
 								this.maxPage = maxPage;
 								this.total = total;
 
-							} else if (res.data.status == 500) {
+							} else {
 								alert(res.data.msg);
 							}
 						});
@@ -605,9 +605,9 @@
 									}
 								})
 							.then(res => {
-								if (res.data.status == 200) {
+								if (res.data.status == 0) {
 
-								} else if (res.data.status == 500) {
+								} else {
 									alert(res.data.msg);
 								}
 							});
@@ -644,9 +644,9 @@
 					var serverUrl = app.serverUrl;
 					axios.get(serverUrl + '/items/info/' + itemId, {})
 						.then(res => {
-							if (res.data.status == 200) {
+							if (res.data.status == 0) {
 								var itemInfo = res.data.data;
-								var item = itemInfo.item;
+								var item = itemInfo.items;
 								// 如果item为空，则商品不存在，跳转错误页面
 								if (item == null || item == undefined || item == '') {
 									window.location.href = "http://www.imooc.com/error/noexists";
@@ -656,20 +656,21 @@
 								this.item = item;
 
 								// 商品图片放大镜效果实现
-								var itemImgListTemp = itemInfo.itemImgList;
+								var itemImgListTemp = itemInfo.itemsImgList;
+								console.log(itemImgListTemp);
 								this.renderZoomItemImgs(itemImgListTemp);
 
 								// 商品规格实现
-								var itemSpecListTemp = itemInfo.itemSpecList;
+								var itemSpecListTemp = itemInfo.itemsSpecList;
 								this.itemSpecList = itemSpecListTemp;
 								var selectedSku = itemSpecListTemp[0];
 								this.selectedSku = selectedSku;
 
-								this.itemParams = itemInfo.itemParams;
+								this.itemParams = itemInfo.itemsParam;
 
 								// console.log(this.itemImgList);
 
-							} else if (res.data.status == 500) {
+							} else {
 								alert(res.data.msg);
 							}
 						});
@@ -782,9 +783,9 @@
 					axios.defaults.withCredentials = true;
 					axios.post(serverUrl + '/passport/logout?userId=' + userId, {})
 						.then(res => {
-							if (res.data.status == 200) {
+							if (res.data.status == 0) {
 								window.location.href = "index.html";
-							} else if (res.data.status == 500) {
+							} else {
 								alert(res.data.msg);
 								return;
 							}

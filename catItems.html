@@ -333,7 +333,7 @@
 					axios.defaults.withCredentials = true;
 					axios.get(serverUrl + '/items/catItems?catId=' + catId + "&sort=" + sort + "&page=" + page + "&pageSize=" + pageSize, {})
 						.then(res => {
-							if (res.data.status == 200) {
+							if (res.data.status == 0) {
 								var grid = res.data.data;
 								var itemsList = grid.rows;
 								this.itemsList = itemsList;
@@ -345,7 +345,7 @@
 								this.total = total;
 
 								// console.log(itemsList);
-							} else if (res.data.status == 500) {
+							} else {
 								alert(res.data.msg);
 								return;
 							}
@@ -357,7 +357,7 @@
 					axios.defaults.withCredentials = true;
 					axios.get(serverUrl + '/items/search?keywords=' + keywords + "&sort=" + sort + "&page=" + page + "&pageSize=" + pageSize, {})
 						.then(res => {
-							if (res.data.status == 200) {
+							if (res.data.status == 0) {
 								var grid = res.data.data;
 								var itemsList = grid.rows;
 								this.itemsList = itemsList;
@@ -369,7 +369,7 @@
 								this.total = total;
 
 								// console.log(itemsList);
-							} else if (res.data.status == 500) {
+							} else {
 								alert(res.data.msg);
 								return;
 							}
